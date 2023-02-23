@@ -33,7 +33,7 @@ namespace WebMineSweeper.Models
 
                             .Build();
 
-                var connectionString = configuration.GetConnectionString("Defaultpd");
+                var connectionString = "Server=127.0.0.1;Port=3307;Database=minebase;Uid=root;Pwd=root;";
 
                 optionsBuilder.UseMySQL(connectionString);
 

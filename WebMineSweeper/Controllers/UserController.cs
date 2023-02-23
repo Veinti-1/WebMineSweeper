@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebMineSweeper.Models;
 
 namespace WebMineSweeper.Controllers
@@ -8,9 +9,10 @@ namespace WebMineSweeper.Controllers
     {
         private readonly minebaseContext _DbContext = new minebaseContext();
         // GET: UserController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            
+            return View(await _DbContext.Users.ToListAsync());
         }
 
         // GET: UserController/Details/5
@@ -32,6 +34,7 @@ namespace WebMineSweeper.Controllers
         {
             try
             {
+                
                 _DbContext.Users.Add(newUser);
                 _DbContext.SaveChanges();
                 return View();
