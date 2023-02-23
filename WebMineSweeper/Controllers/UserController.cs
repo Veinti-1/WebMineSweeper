@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebMineSweeper.Models;
 
 namespace WebMineSweeper.Controllers
 {
     public class UserController : Controller
     {
+        private readonly minebaseContext _DbContext = new minebaseContext();
         // GET: UserController
         public ActionResult Index()
         {
@@ -26,11 +28,13 @@ namespace WebMineSweeper.Controllers
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(User newUser)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _DbContext.Users.Add(newUser);
+                _DbContext.SaveChanges();
+                return View();
             }
             catch
             {
