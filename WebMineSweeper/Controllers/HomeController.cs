@@ -15,6 +15,7 @@ namespace WebMineSweeper.Controllers
 
         public IActionResult Index()
         {
+            //hola
             return View();
         }
 
