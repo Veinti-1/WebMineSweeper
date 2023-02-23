@@ -19,7 +19,7 @@ namespace WebMineSweeper.Controllers
         public ActionResult Details(int id)
         {
             return View();
-        }
+        } 
 
         // GET: UserController/Create
         public ActionResult Create()
@@ -34,7 +34,6 @@ namespace WebMineSweeper.Controllers
         {
             try
             {
-                
                 _DbContext.Users.Add(newUser);
                 _DbContext.SaveChanges();
                 return View();
@@ -54,10 +53,12 @@ namespace WebMineSweeper.Controllers
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, User editedUser)
         {
             try
             {
+                _DbContext.Users.Update(editedUser);
+                _DbContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -67,18 +68,20 @@ namespace WebMineSweeper.Controllers
         }
 
         // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            return View(await _DbContext.Users.FindAsync(id));
         }
 
         // POST: UserController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, User deletedUser)
         {
             try
             {
+                _DbContext.Users.Remove(deletedUser);
+                _DbContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
